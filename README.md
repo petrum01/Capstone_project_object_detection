@@ -55,7 +55,7 @@ I will thoroughly document each phase of the project and draw conclusions on the
 
 I used this [`repo on github`](https://github.com/hardikvasa/google-images-download) to collect images from the web.
 
-I chose a custom class of objects (for now, speed-traps), and searched for specific keywords and also reverse searched for specific images, using the code below :
+I chose a custom class of objects (speed-traps), and searched for specific keywords and also reverse searched for specific images, using the code below :
 
 ```python
 from google_images_download import google_images_download
@@ -85,35 +85,34 @@ if not os.path.isdir(imdir):
 
     n = 0
     for folder in radar_folders:
-    for imfile in os.scandir(os.path.join('/Users/pm/Documents/AI/compvision/clean/new_model_data_copie/',folder)):
+    for imfile in os.scandir(os.path.join('/Documents/',folder)):
         os.rename(imfile.path, os.path.join(imdir, '{:06}.png'.format(n)))
         n += 1
 ```
 
-It resulted in a very limited dataset (about 100 images), not coherent enough : different types of speed traps, different point of views...
-
+It resulted in a very limited dataset (about 100 images), not coherent enough : different types of speed traps, different point of views... As a consequence, this dataset was discarded.
 
 #### Second try : Collecting images from GoPro footage
 
-I attached a GoPro camera in my car and filmed my trips on Swiss highways. The footage captures many speedtraps. This will be used as a train / test set.
+I attached a GoPro camera to the dashboard of my car and filmed my trips on Swiss highways. The footage captures many speedtraps. This will be used as a train / test set.
 
 Methodology for filming :
 - filming at 60 fps, with GoPro Hero+
-- 1920 x 1080
+- 1920 x 1080 resolution
 - camera mounted on the dashboard of the car
 - filming the same object with different lighting conditions, slightly different angles
 
 Post-processing in iMovie:
 - shortening the video clip to approx. 30 seconds,
-- only when speed traps are visible (medium & close range)
+- only when speed traps are visible (long, medium & close range)
 - simple color grading
 
 Example of footage :
-![](resources/test_set_gif_example.gif)
+![example](resources/test_set_gif_example.gif)
 
 ### Extracting frames from video footage :
 
-Running this [`code`](https://github.com/petrum01/Capstone_project_object_detection/tree/master/creating_dataset) extracts frames from the input video footage. See output frames [`here`](https://github.com/petrum01/Capstone_project_object_detection/tree/master/creating_dataset/frames).
+Running this [`code`](https://github.com/petrum01/Capstone_project_object_detection/blob/master/creating_dataset/extract_frames.py) extracts frames from the input video footage. See output frames [`here`](https://github.com/petrum01/Capstone_project_object_detection/tree/master/creating_dataset/frames).
 
 ### Labelling and annotating train data
 
