@@ -469,7 +469,7 @@ The more it is trained, the more steadily the net detects the object, but also p
 
 #### faster_rcnn_resnet101_kitti
 
-['KITTI'](http://www.cvlibs.net/datasets/kitti/) datasets are captured by driving around the mid-size city of Karlsruhe, in rural areas and on highways. Up to 15 cars and 30 pedestrians are visible per image. This might be a good match to our detection problem. Raw KITTI images have a resolution of 1242x375 (about 13% more than the ssd_resnet50_v1 input training image size, and 500% bigger than ssd_mobilenet_v2_coco input training image size).
+[KITTI](http://www.cvlibs.net/datasets/kitti/) datasets are captured by driving around the mid-size city of Karlsruhe, in rural areas and on highways. Up to 15 cars and 30 pedestrians are visible per image. This might be a good match to our detection problem. Raw KITTI images have a resolution of 1242x375 (about 13% more than the ssd_resnet50_v1 input training image size, and 500% bigger than ssd_mobilenet_v2_coco input training image size).
 
 This model was trained on the dataset with added background images.
 
