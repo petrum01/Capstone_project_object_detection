@@ -1,0 +1,23 @@
+<annotation>
+    <folder>frames</folder>
+    <filename>frame138.jpg</filename>
+    <size>
+        <width>1920</width>
+        <height>1080</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>radar</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>7</xmin>
+            <ymin>278</ymin>
+            <xmax>278</xmax>
+            <ymax>740</ymax>
+        </bndbox>
+    </object>
+</annotation>
