@@ -474,9 +474,12 @@ The more it is trained, the more steadily the net detects the object, but also p
 This model was trained on the dataset with added background images.
 
 After 25k training steps : training loss (around 0.02) is slightly lower than evaluation loss (0.04), a sign of (some) over-fitting.
+
 ![loss](models/faster_rcnn_resnet101_kitti/bg_set/train_loss.png)
 ![loss](models/faster_rcnn_resnet101_kitti/bg_set/eval_loss.png)
+
 The mean average precision at 25k is around 0.77:
+
 ![mAP](models/faster_rcnn_resnet101_kitti/bg_set/map.png)
 
 <!-- Typically validation loss should be similar to but slightly higher than training loss. As long as validation loss is lower than or even equal to training loss one should keep doing more training.
@@ -486,6 +489,7 @@ If overall accuracy still not acceptable then review mistakes model is making
 -->
 
 After 25k training steps : slower detection, and despite some steady detection of false positive, this model achieves good steady detection on smaller objects.
+
 ![](models/faster_rcnn_resnet101_kitti/bg_set/25k_ht.gif)
 
 The inference time on a machine with GPU (Quadro P4000) is quite slow, so usability of this model on devices with more limited computing power seems to be very unlikely.
