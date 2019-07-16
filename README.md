@@ -137,7 +137,7 @@ print ("images without annotations:",set(filesB)-set(filesA))
 
 ### Converting to TFRecord file format
 
-TFRecord is Tensorflow’s own binary storage format. We need to convert the dataset (images in jpg format and annotations in xml format) to this format in order to improve the performance of our import pipeline and as a consequence, lowering the training time of our model.
+TFRecord is Tensorflow’s own binary storage format. We need to convert the dataset (images in .jpg format and annotations in .xml format) to this format in order to improve the performance of our import pipeline and as a consequence, lowering the training time of our model.
 
 Indeed, instead of loading the data simply using python code at each step and feed it into a graph, we will use an input pipeline which takes a list of files (in this case in TFRecord format), create a file queue, read, and decode the data.
 
@@ -148,7 +148,7 @@ For each set (train & test), we run this [`script`](https://github.com/petrum01/
 -->
 
 ```bash
-$python object_detection/dataset_tools/rectlabel_create_pascal_tf_record.py \
+python object_detection/dataset_tools/rectlabel_create_pascal_tf_record.py \
     --images_dir="creating_dataset/frames" \
     --image_list_path="creating_dataset/train.txt" \
     --label_map_path="creating_dataset/data/label_map.pbtxt" \
@@ -156,19 +156,19 @@ $python object_detection/dataset_tools/rectlabel_create_pascal_tf_record.py \
 ```
 [`source`](https://rectlabel.com/help#tf_record)
 
-We then can inspecting tfrecord files to ensure the integrity of thses files and test if the conversion process went correctly by counting the number of records in the TFRecord train & test files.
+We then can inspect tfrecord files to ensure the integrity of theses files and test if the conversion process went correctly by counting the number of records in the TFRecord train & test files.
 
 ```python
 import tensorflow as tf
 
-for example in tf.python_io.tf_record_iterator("creating_dataset/test.record"): # inspecting one record
+for example in tf.python_io.tf_record_iterator("creating_dataset/data/test.record"): # inspecting one record
     result = tf.train.Example.FromString(example)
 print(result)
 
-a = sum(1 for _ in tf.python_io.tf_record_iterator("creating_dataset/train.record")) # Counting the number of records
+a = sum(1 for _ in tf.python_io.tf_record_iterator("creating_dataset/data/train.record")) # Counting the number of records
 print('Number of records in train:', a)
 
-b = sum(1 for _ in tf.python_io.tf_record_iterator("creating_dataset/test.record"))
+b = sum(1 for _ in tf.python_io.tf_record_iterator("creating_dataset/data/test.record"))
 print('Number of records in test:', b)
 ```
 
@@ -195,7 +195,7 @@ Frames 249 to 399 from GoPro footage on bad lighting conditions and also with sm
 
 I found many advantages in using Tensorflow Object Detection API, the most important one being the possibility to train multiple models quickly, and to find which one suits best to my needs in a limited timeframe.
 
-I forked the Tensorflow repo on github and added some code perform training, evaluation, and inference. I will link to the code I wrote in this readme.
+I forked the Tensorflow repo on github and added some code to perform training, evaluation, and inference. I will link to the code I wrote in this readme.
 
 ### Choosing the architecture of the net
 
@@ -209,19 +209,19 @@ I choose to train several models already implemented in Tensorflow Object Detect
 
 ### Hardware for training
 
-I used [`Paperspace`](https://www.paperspace.com/) which is a cloud platform that provides Linux virutal machines with GPU computing power.
+I used [`Paperspace`](https://www.paperspace.com/) which is a cloud platform that provides Linux virtual machines with GPU computing power.
 
 The setup is comprised of :
 - multiple virtual machines
-- Ubuntu 18.04
-- GPU : Quadro P4000
+- each with a Quadro P4000 GPU
+- running Ubuntu 18.04
 - CUDA drivers 9.0.176
 - tensorflow-gpu (1.12.0)
 - a more detailed list of packages can be found [`here`](https://github.com/petrum01/Capstone_project_object_detection/tree/master/resources/requirements.txt)
 
-Setting up the virtual machine took quite a long time, as conflicts were frequent bewteen libraries, especially with opencv. Also, finding the right combination of CUDA drivers & Tensorflow version was crucial.
+Setting up the virtual machine took quite a long time, as conflicts were frequent between libraries, especially with opencv. Also, finding the right combination of CUDA drivers & Tensorflow version was crucial.
 
-I accessed the virtual machine from my local machine through ssh.
+I accessed the virtual machines from my local machine through ssh.
 
 ### Configuring the training pipeline
 
@@ -251,7 +251,7 @@ evaluated on. Typically this should be different than the training input
 dataset.
 > -- [`source`](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/configuring_jobs.md)
 
-Config files are relative to one specific model and can be found [`here`](https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs). We need to apply some changes to the config file in order to
+Config files are relative to a specific pre-trained model and can be found [`here`](https://github.com/tensorflow/models/tree/master/research/object_detection/samples/configs). We need to apply some changes to the config file in order to initiate training.
 
 Below are the standard changes that we shall need to apply to the downloaded .config file:
 
@@ -300,13 +300,13 @@ data_augmentation_options {
 
 #### Training workflow
 
- - Starting training:
+ - Starting training
 
 From the training directory, run:
 ```sh
 PIPELINE_CONFIG_PATH=pipeline.config #path to the modified config file
 MODEL_DIR=training/ #path to the directory where training checkpoints will be saved
-NUM_TRAIN_STEPS=60000 #number of training steps
+NUM_TRAIN_STEPS=25000 #number of training steps
 SAMPLE_1_OF_N_EVAL_EXAMPLES=1
 python model_main.py \
    --pipeline_config_path=${PIPELINE_CONFIG_PATH} \
@@ -316,11 +316,11 @@ python model_main.py \
    --alsologtostderr
 ```
 
-- Monitoring with tensorboard:
+- Monitoring the training process with Tensorboard
 
 From the training directory, run:
 ```bash
-$tensorboard --logdir=training
+$tensorboard --logdir training
 ```
 However I had to set up a proxy to re-route tensorboard from the virtual machine to my local machine.
 
@@ -329,7 +329,7 @@ Set proxy to monitor from local machine
 ./ngrok http 6006
 (source : https://ngrok.com/docs)
 -->
-- Monitoring GPU usage is useful in the first stages of training to see if everything worked properly:
+- Monitoring GPU usage is useful in the first stages of training to see if everything worked properly
 
 ```bash
 $nvidia-smi -l
