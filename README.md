@@ -415,12 +415,12 @@ But steady detection of some false positives  :
 After adding 100 background images (images with no groundtruth boxes) to the training dataset, and re-training the previsous ssd_resnet50_v1 model.
 <!-- dataset named "bgset"
 -->
-After 25k training steps, the training loss (around 0.02) is slightly lower than evaluation loss (0.04), a sign of (mild) over-fitting.
+After 25k training steps, the training loss (around 0.02) is slightly lower than evaluation loss (0.04), a sign of (mild) over-fitting:
+
 ![loss](models/ssd_resnet_50_fpn_coco/bg_set/train_loss.png)
 ![loss](models/ssd_resnet_50_fpn_coco/bg_set/eval_loss.png)
 
-The trained model still picks up false positives (see below at 0,2 detection threshold) but with less confidence. When bumping the detection threshold to 0,8, these false positives are not "detected" anymore (in fact, only the boxes are not drawn on the images )
-but detection is still only effective only from close range.
+The trained model still picks up false positives (see below at 0,2 detection threshold) but with less confidence. When bumping the detection threshold to 0,8, these false positives are not "detected" anymore (in fact, objects are detected, but bounding boxes are not drawn on the images for detection with a confidence level below 80%). But detection is (still) only effective from close range.
 
 False positives at 0,2 detection threshold:
 ![Exemple of false positive](models/ssd_resnet_50_fpn_coco/bg_set/25k_false_lt.gif)
