@@ -405,8 +405,8 @@ SSD with Resnet 50 v1 FPN feature extractor, shared box predictor and focal loss
 
 - after decreasing learning rate :
 -->
-After 25k training steps : steady detection from close range (from further vs. previous model), but steady detection of few false positives (1 or 2 steady, a few more intermittently)
-![](models/ssd_resnet_50_fpn_coco/25k_detection.gif)
+After 25k training steps : steady detection from close range (from further vs. previous model), but steady detection of few false positives :
+![](models/ssd_resnet_50_fpn_coco/25K_detection.gif)
 False positives :
 ![Exemple of false positive](models/ssd_resnet_50_fpn_coco/25k_false.gif)
 
