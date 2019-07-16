@@ -26,13 +26,13 @@ Training of a neural net for custom class object detection with Tensorflow Objec
 			- [Training workflow](#training-workflow)
 	- [Part 3 : Results](#part-3-results)
 		- [1 - Single Shot Detector (SSD) models](#1-single-shot-detector-ssd-models)
-			- [ssd_mobilenet_v2_coco results](#ssdmobilenetv2coco-results)
-			- [ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync results](#ssdresnet50v1fpnsharedboxpredictor640x640coco14sync-results)
-			- [Adding background images to reduce false positive detection:](#adding-background-images-to-reduce-false-positive-detection)
+			- [ssd_mobilenet_v2_coco](#ssdmobilenetv2coco)
+			- [ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync](#ssdresnet50v1fpnsharedboxpredictor640x640coco14sync)
+			- [Adding background images to reduce false positive detection](#adding-background-images-to-reduce-false-positive-detection)
 			- [Takeaways:](#takeaways)
 		- [2 - Faster RCNN](#2-faster-rcnn)
 			- [faster_rcnn_inception_v2_coco](#fasterrcnninceptionv2coco)
-			- [faster_rcnn_resnet101_kitti :](#fasterrcnnresnet101kitti-)
+			- [faster_rcnn_resnet101_kitti](#fasterrcnnresnet101kitti)
 			- [Takeaways:](#takeaways)
 	- [Conclusion](#conclusion)
 
@@ -374,7 +374,7 @@ Models trained :
 | [ssd_resnet_50_fpn_coco](http://download.tensorflow.org/models/object_detection/ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync_2018_07_03.tar.gz) | 76 | 35 |
 
 
-#### ssd_mobilenet_v2_coco results
+#### ssd_mobilenet_v2_coco
 
 Mobilenet is at the base of the net to make it faster.
 
@@ -392,7 +392,7 @@ After 28k training steps, training loss and evaluation loss are roughly equal.
 A very good inference speed, few false positives, but quite poor detection : non existant detection from long and medium distance, only from very close.
 ![](models/ssd_mobilenet_v2_coco/29k.gif)
 
-#### ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync results
+#### ssd_resnet50_v1_fpn_shared_box_predictor_640x640_coco14_sync
 
 SSD with Resnet 50 v1 FPN feature extractor, shared box predictor and focal loss (a.k.a Retinanet). By using this model, we are trying to improve small object detection :
 1. resnet would theoretically allow for better detection of small objects by providing additional large-scale context
@@ -410,7 +410,7 @@ After 25k training steps, steady detection from close range (from further vs. pr
 But steady detection of some false positives  :
 ![Exemple of false positive](models/ssd_resnet_50_fpn_coco/25k_false.gif)
 
-#### Adding background images to reduce false positive detection:
+#### Adding background images to reduce false positive detection
 
 After adding 100 background images (images with no groundtruth boxes) to the training dataset, and re-training the previsous ssd_resnet50_v1 model.
 <!-- dataset named "bgset"
@@ -460,16 +460,16 @@ Models trained :
 
 #### faster_rcnn_inception_v2_coco
 
-After 20k training steps, better detection on smaller objects(very steady medium - close range detection) :
+After 20k training steps, better detection on smaller objects (very steady medium - close range detection) :
 ![detection](models/faster_rcnn_inception_v2_coco/20k_detection_ht.gif)
 But slower inference time and too many false positives, even when detection threshold is bumped :
 ![false positives](models/faster_rcnn_inception_v2_coco/20k_false_ht.gif)
 
 The more it is trained, the more steadily the net detects the object, but also picks up the same false positives but with better (false) acuracy (this net was trained to 60k steps, but with no major improvements).
 
-#### faster_rcnn_resnet101_kitti :
+#### faster_rcnn_resnet101_kitti
 
-KITTI datasets are captured by driving around the mid-size city of Karlsruhe, in rural areas and on highways. Up to 15 cars and 30 pedestrians are visible per image. This might be a good match to our detection problem. Raw KITTI images have a resolution of 1242x375 (about 13% more than the ssd_resnet50_v1 input training image size, and 500% bigger than ssd_mobilenet_v2_coco input training image size).
+['KITTI'](http://www.cvlibs.net/datasets/kitti/) datasets are captured by driving around the mid-size city of Karlsruhe, in rural areas and on highways. Up to 15 cars and 30 pedestrians are visible per image. This might be a good match to our detection problem. Raw KITTI images have a resolution of 1242x375 (about 13% more than the ssd_resnet50_v1 input training image size, and 500% bigger than ssd_mobilenet_v2_coco input training image size).
 
 This model was trained on the dataset with added background images.
 
